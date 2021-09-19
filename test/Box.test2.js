@@ -11,7 +11,7 @@ const Box = artifacts.require('Box');
 // Start test block
 contract('Box', function ([ owner, other ]) {
   // Use large integers ('big numbers')
-  const value = new BN('42');
+  const value = new BN('777');
 
   beforeEach(async function () {
     this.box = await Box.new({ from: owner });

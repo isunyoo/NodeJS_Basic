@@ -56,13 +56,35 @@ $ npx hardhat run --network localhost ./scripts/index.js
 
 *** Setup unit tests ***
 $ npm install --save-dev chai
+$ npm install --save-dev @nomiclabs/hardhat-truffle4 @nomiclabs/hardhat-web3-legacy web3@^0.20.7
+$ cat hardhat.config.js
+require("@nomiclabs/hardhat-truffle4");
 $ cat test/Box.test1.js
 $ npx hardhat test
 
 OpenZeppelin Test Helpers
 $ npm install --save-dev @openzeppelin/test-helpers
 $ cat test/Box.test2.js
+$ cat truffle-config.js
+compilers: {
+    solc: {
+      version: "^0.8.0"
+    }
+  }
 $ npx truffle test
-$ npm upgrade solc@0.8.0
 
-https://docs.openzeppelin.com/learn/writing-automated-tests
+OpenZeppelin Test Environment
+$ npm install --save-dev @openzeppelin/test-environment
+$ npm install --save-dev mocha chai
+$ sudo npm install -g mocha
+$ cat package.json 
+"scripts": {
+    "test": "mocha --exit --recursive"    
+  }
+$ cat test/Box.test3.js
+$ npm test
+$ truffle compile && mocha --exit --recursive
+
+
+*** Connecting to public test networks ***
+https://docs.openzeppelin.com/learn/connecting-to-public-test-networks
