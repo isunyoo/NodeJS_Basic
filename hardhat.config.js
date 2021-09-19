@@ -19,7 +19,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+const { projectId, mnemonic } = require('./secrets.json');
+
 module.exports = {
   solidity: "0.8.4",
+  networks: {
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${projectId}`,      
+      accounts: { mnemonic: mnemonic },
+    },
+  },
 };
-

@@ -87,4 +87,35 @@ $ truffle compile && mocha --exit --recursive
 
 
 *** Connecting to public test networks ***
-https://docs.openzeppelin.com/learn/connecting-to-public-test-networks
+$ npx mnemonics
+$ cat secrets.json 
+{
+  "mnemonic": "drama film snack motion ...",
+  "projectId": "JPV2..."
+}
+$ cat secrets.json 
+// hardhat.config.js
+const { alchemyApiKey, mnemonic } = require('./secrets.json');
+module.exports = {  
+  networks: {
+    rinkeby: {      
+      url: `https://rinkeby.infura.io/v3/${projectId}`,     
+      accounts: { mnemonic: mnemonic },
+    },
+  },
+};
+
+$ npx hardhat run --network rinkeby scripts/deploy.js
+Deploying Box...
+Box deployed to: 0xDb3c49Ab4500b2AD032Aa79C6e90De8B60b15Ccd
+$ npx hardhat console --network rinkeby
+> accounts = await ethers.provider.listAccounts()
+> (await ethers.provider.getBalance(accounts[0])).toString()
+> const Box = await ethers.getContractFactory('Box');
+> const box = await Box.attach('0xDb3c49Ab4500b2AD032Aa79C6e90De8B60b15Ccd');
+> await box.store(777);
+> (await box.retrieve()).toString()
+
+
+*** Upgrading smart contracts ***
+https://docs.openzeppelin.com/learn/upgrading-smart-contracts
