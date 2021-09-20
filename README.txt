@@ -115,6 +115,7 @@ $ npx hardhat console --network rinkeby
 > const box = await Box.attach('0xDb3c49Ab4500b2AD032Aa79C6e90De8B60b15Ccd');
 > await box.store(777);
 > (await box.retrieve()).toString()
+$ npx hardhat verify --network rinkeby 0xDb3c49Ab4500b2AD032Aa79C6e90De8B60b15Ccd
 
 
 *** Upgrading smart contracts ***
