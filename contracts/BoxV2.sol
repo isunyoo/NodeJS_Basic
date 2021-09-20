@@ -1,12 +1,9 @@
-// contracts/Box.sol
+// contracts/BoxV2.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Box {
+contract BoxV2 {
     uint256 private _value;
-
-    // We can safely add a new variable after the ones we had declared
-    address private _owner;
 
     // Emitted when the stored value changes
     event ValueChanged(uint256 value);
@@ -20,5 +17,11 @@ contract Box {
     // Reads the last stored value
     function retrieve() public view returns (uint256) {
         return _value;
+    }
+
+    // Increments the stored value by 1
+    function increment() public {
+        _value = _value + 1;
+        emit ValueChanged(_value);
     }
 }

@@ -118,4 +118,59 @@ $ npx hardhat console --network rinkeby
 
 
 *** Upgrading smart contracts ***
-https://docs.openzeppelin.com/learn/upgrading-smart-contracts
+Hardhat Upgrades plugin.
+$ npm install --save-dev @openzeppelin/hardhat-upgrades
+$ cat hardhat.config.js
+require('@nomiclabs/hardhat-ethers');
+require('@openzeppelin/hardhat-upgrades');
+$ cat scripts/deploy_upgradeable_box.js
+
+$ npx hardhat node
+$ npx hardhat run --network localhost scripts/deploy_upgradeable_box.js
+Deploying Box...
+Box deployed to: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+$ npx hardhat console --network localhost
+> const Box = await ethers.getContractFactory('Box');
+> const box = await Box.attach('0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0');
+> (await box.retrieve()).toString();
+
+$ cat contracts/BoxV2.sol
+$ cat scripts/upgrade_box.js
+$ npx hardhat run --network localhost scripts/upgrade_box.js
+$ npx hardhat console --network localhost
+> const BoxV2 = await ethers.getContractFactory('BoxV2');
+> const box = await BoxV2.attach('0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0');
+> (await box.retrieve()).toString();
+> await box.increment();
+> (await box.retrieve()).toString();
+
+Limitations of contract upgrades with Initialization
+$ npm install --save-dev @openzeppelin/hardhat-upgrades
+$ cat contracts/AdminBox.sol
+$ cat scripts/deploy_upgradeable_adminbox.js
+const adminBox = await upgrades.deployProxy(AdminBox, ['0x~~~~~'], { initializer: 'initialize' });               
+> accounts = await ethers.provider.listAccounts()
+$ cat contracts/Box.sol
+// We can safely add a new variable after the ones we had declared
+address private _owner;
+
+
+*** Mainnet ***
+Hardhat Etherscan plugin
+$ npm install --save-dev @nomiclabs/hardhat-etherscan
+$ cat hardhat.config.js
+const { projectId, mnemonic, etherscanApiKey } = require('./secrets.json');
+require("@nomiclabs/hardhat-etherscan");
+module.exports = {
+  networks: {
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${projectId}`,      
+      accounts: { mnemonic: mnemonic },
+    },   
+  },
+  etherscan: {
+    apiKey: etherscanApiKey
+  }
+};
+
+$ npx hardhat verify --network mainnet DEPLOYED_CONTRACT_ADDRESS "Constructor_argument_1"
